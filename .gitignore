@@ -1,0 +1,6 @@
+./dummy.txt
+
+data/raw/*
+data/processsed/*
+!data/raw/gse129705
+!data/processsed/dummy.txt
