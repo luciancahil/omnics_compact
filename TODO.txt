@@ -1,0 +1,53 @@
+Okay, so think about what I actually want to do.
+
+I want a jupyter notebook. Have no local imports, everything just on that page.
+
+Oh, actually, that might be a bit much.
+
+The notebook might take too long for GNN Explain?
+
+It might. For now, try the idea of filtering. come back later.
+
+Eventually, I want all the utils stuff defined up at the top.
+
+So what does it do?
+
+Let's think about it from the point of view of the person running it.
+
+I need data from theme.
+	Gene data: An N x P CSV, with one row per patient, and one column per row.
+	Graph Data: One of these per graph (txt).. Has :
+		One line for number of edges.
+		The edges (directed).
+		One line for number of nodes.
+		Nodes (node name, then the genes). We will take Intersection.
+
+
+There is a text field to change the dataset. Use the folder we want.
+
+
+Okay, that's all I need from them.
+
+What comes next?
+
+I should process all of this into an LMDB, and ideally, just run the data as needed with the existing notebooks. 
+	Main change: Should be fully automatic. I should just find the best of the non-extreme hyperparameters, and go from there, at each step.
+	At the end, compare AUCs. 
+	Say "don't worry too much if the AUC is worse. The Graph is much more interpretable".
+
+Then, trim the graphs I don't need, and then store it.
+
+Try GNNExplainer with the pruned data. See how much faster / slower it is.
+
+Nah, I shouldn't. Just have the extra file. 
+
+2 files with clearly deliniated tasks is fine. 
+
+Eventually, I will need to present the explanations.
+One explanation: Group Lasso treates the same gene in different graphs as different, for the sake of analysis.
+
+This means I should actually mostly be done the GNN stuff. Just add stuff to get the name, importance, and then visualize stuff. Not too bad.
+
+How do I actually want to do this? 
+
+I have 3 Omnics databases I need to comb through. Hope it's mostly intuitive. 

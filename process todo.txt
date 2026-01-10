@@ -1,0 +1,7 @@
+I need to do the fancy math stuff.
+
+
+The format should now be:
+
+REad Data.
+Save info into LMDB.
