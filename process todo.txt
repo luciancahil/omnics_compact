@@ -1,6 +1,5 @@
 I need to do the fancy math stuff.
 
 
-Next step, clean up the Group Lasso stuff (automate everything, redo heat maps).
 
 Then, move on to the GNNs.
