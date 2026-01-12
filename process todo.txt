@@ -1,7 +1,6 @@
 I need to do the fancy math stuff.
 
 
-The format should now be:
+Next step, clean up the Group Lasso stuff (automate everything, redo heat maps).
 
-REad Data.
-Save info into LMDB.
+Then, move on to the GNNs.
