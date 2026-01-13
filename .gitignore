@@ -1,6 +1,5 @@
 ./dummy.txt
 
-data/raw/*
+data/*
 data/processsed/*
-!data/raw/gse129705
-!data/processsed/dummy.txt
+!data/gse129705
