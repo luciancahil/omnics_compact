@@ -3,3 +3,5 @@
 data/*
 data/processsed/*
 !data/gse129705
+
+*.mdb
