@@ -230,13 +230,24 @@ print(f"Subgraph visualization plot has been saved to '{path}'")
 
 edge_importance = explanation.edge_mask
 
-
+breakpoint()
 """
 TODO:
+- Try filtering: Store Edge num per graph. Then try trimming the graphs that are already 0'd out.
+- Also, try filtering genes.
 - Turn edge importance into a csv table with rows: Graph, Source, Target, value.
-- Feature should be graph_name, gene_name, value.
+    - This is gonna need the inverted node-to-number map. Store that as well.
+- Feature Importance should be graph_name, gene_name, value.
 - Rerun this for 200 epochs, and all 128 patients.
-- Node importance could be either sum of edges involving (to or from) it, or by looking at thing.
+- Node importance could be either sum of edges involving (to or from) it, or by looking at thing. (Skip For Now).
 - Subgraph importance is existing weights.
-- 
+- Then, write out an explanation.
+
+For now, I want to run the code again, after getting everything.
+
+What do I need?
+
+- Edges per graph.
+- number-to-node dict for each graph.
+- gene names per graph.
 """
