@@ -63,16 +63,16 @@ class GraphNet(nn.Module):
     def __init__(self, node_scales, num_genes, nodes_per_graph,  graph_scales, graph_means, num_nodes, final_scales, final_means):
         super(GraphNet, self).__init__()  
 
-        self.node_scales = torch.tensor(node_scales) 
+        self.node_scales = torch.tensor(node_scales).to(torch.float32)
         self.gcn = GCNConv(num_genes, len(nodes_per_graph), normalize=False)
 
         self.nodes_per_graph = nodes_per_graph
-        self.graph_scales = torch.tensor(graph_scales) 
-        self.graph_means = torch.tensor(graph_means)
-        self.to_graph_layer = nn.Linear(num_nodes, num_graphs)  
+        self.graph_scales = torch.tensor(graph_scales).to(torch.float32)
+        self.graph_means = torch.tensor(graph_means).to(torch.float32)
+        self.to_graph_layer = nn.Linear(num_nodes, num_graphs)
 
-        self.final_scales = torch.tensor(final_scales) 
-        self.final_means = torch.tensor(final_means)
+        self.final_scales = torch.tensor(final_scales).to(torch.float32)
+        self.final_means = torch.tensor(final_means).to(torch.float32)
         self.to_final_layer = nn.Linear(num_graphs, 1) 
     
     def forward(self, x, old_edge_index):
@@ -108,10 +108,9 @@ class GraphNet(nn.Module):
         
         x = self.to_graph_layer(x)
 
-
         x = (x - self.final_means) / self.final_scales
 
-        x = self.to_final_layer(x.float())
+        x = self.to_final_layer(x)
 
         return sigmoid(x)
 
@@ -152,6 +151,8 @@ def get_edge_index():
 def get_graph_info(idx):
     X, y = get_item(idx)
 
+    X = X.to(torch.float32)
+
     return X, y
 
 saved_path = os.path.join(processed_path,  "Saved_Info")
@@ -175,8 +176,8 @@ def set_params():
     gn.to_graph_layer.weight = nn.Parameter(torch.tensor(get_saved_info("graph_coefs")).T.float())
     gn.to_graph_layer.bias = nn.Parameter(torch.tensor(get_saved_info("graph_intercepts")).float())
 
-    gn.to_final_layer.weight = nn.Parameter(torch.tensor(get_saved_info("final_coefs")))
-    gn.to_graph_layer.bias = nn.Parameter(torch.tensor(get_saved_info("final_intercept")))
+    gn.to_final_layer.weight = nn.Parameter(torch.tensor(get_saved_info("final_coefs")).float())
+    gn.to_graph_layer.bias = nn.Parameter(torch.tensor(get_saved_info("final_intercept")).float())
 
 
 num_genes = 12132
