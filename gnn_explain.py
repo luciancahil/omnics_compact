@@ -189,11 +189,22 @@ def set_params():
     txn.put("num_to_name_dicts".encode(), pickle.dumps(num_to_name_dicts))
 """
 
+#total number of genes across everything.
 num_genes = get_item("num_genes")
+
+# total number of nodes
 num_nodes = get_item("num_nodes")
+
+# list of nodes
 nodes_per_graph = get_item("nodes_per_graph")
+
+# list of num edges
 edges_per_graph = get_item("edges_per_graph")
+
+# list of num genes
 genes_per_graph = get_item("genes_per_graph")
+
+# one dict per grpah.
 num_to_name_dicts = get_item("num_to_name_dicts")
 
 
@@ -267,4 +278,7 @@ What do I need?
 - Edges per graph.
 - number-to-node dict for each graph.
 - gene names per graph.
+
+
+
 """
