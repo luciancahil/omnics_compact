@@ -207,14 +207,41 @@ genes_per_graph = get_item("genes_per_graph")
 # one dict per grpah.
 num_to_name_dicts = get_item("num_to_name_dicts")
 
+# list of all column names.
+# will be name of the graph file (with .txt), and undescore, then the gene name
+col_names = get_item("col_names")
 
-breakpoint()
+
+# the coefficients of the last layer
+# will have one value for each graph.
+# most will be 0'd out.
+final_coefs =  get_saved_info("final_coefs")
+
+# an array, where the ith value is true if the ith final coeficient isn't 0.
+live_graphs = np.abs(final_coefs) > 0
+
+
+# how much to scale each gene.
+# we use MaxAbs, so there is no intercept.
+gene_scales = get_saved_info("node_transform_scales")
+
+# how much we should scale each node at the second layer.
+# we use standard scale, so we need both a scale value and a mean.
+node_scales = get_saved_info("graph_transform_scales")
+
+node_means = get_saved_info("graph_transform_means")
+
+
+#  how much we should scale each number at the last layer, where each value corresponds with a graph.
+# we use standard scaler, so we need both scales and means.
+graph_scales = get_saved_info("final_transform_scales")
+graph_means = get_saved_info("final_transform_means")
 
 nodes_per_graph = get_saved_info("num_nodes")
 num_graphs = len(nodes_per_graph)
 
-gn = GraphNet(get_saved_info("node_transform_scales"), num_genes, nodes_per_graph, get_saved_info("graph_transform_scales"), get_saved_info("graph_transform_means"),
-              num_nodes, get_saved_info("final_transform_scales"), get_saved_info("final_transform_means"))
+gn = GraphNet(gene_scales, num_genes, nodes_per_graph, node_scales, node_means,
+              num_nodes, graph_scales, graph_means)
 
 edge_index = get_edge_index().long()
 
@@ -267,6 +294,7 @@ TODO:
     - This is gonna need the inverted node-to-number map. Store that as well.
 - Feature Importance should be graph_name, gene_name, value.
 - Rerun this for 200 epochs, and all 128 patients.
+    Experiment with epochs. Try 
 - Node importance could be either sum of edges involving (to or from) it, or by looking at thing. (Skip For Now).
 - Subgraph importance is existing weights.
 - Then, write out an explanation.
