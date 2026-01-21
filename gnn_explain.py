@@ -129,7 +129,6 @@ env = lmdb.open(lmdb_path, readonly=True, lock=False, readahead=False, meminit=F
 
 def get_item(idx):
     with env.begin() as txn:
-        print("{}".format(idx))
         item_bytes = txn.get("{}".format(idx).encode())
 
         return pickle.loads(item_bytes)
@@ -168,16 +167,6 @@ def get_saved_info(name):
 # Data Getters
 
 
-
-def set_params():
-    gn.gcn.lin.weight = nn.Parameter(torch.tensor(get_saved_info("node_coefs")).T.float())
-    gn.gcn.bias = nn.Parameter(torch.tensor(get_saved_info("node_intercepts")).float())
-
-    gn.to_graph_layer.weight = nn.Parameter(torch.tensor(get_saved_info("graph_coefs")).T.float())
-    gn.to_graph_layer.bias = nn.Parameter(torch.tensor(get_saved_info("graph_intercepts")).float())
-
-    gn.to_final_layer.weight = nn.Parameter(torch.tensor(get_saved_info("final_coefs")).float())
-    gn.to_graph_layer.bias = nn.Parameter(torch.tensor(get_saved_info("final_intercept")).float())
 
 
 """
@@ -245,12 +234,28 @@ gn = GraphNet(gene_scales, num_genes, nodes_per_graph, node_scales, node_means,
 
 edge_index = get_edge_index().long()
 
+gcn_weight = get_saved_info("node_coefs")
+gcn_bias = get_saved_info("node_intercepts")
 
+to_graph_weight = get_saved_info("graph_coefs")
+to_graph_bias = get_saved_info("graph_intercepts")
+
+to_final_weight = get_saved_info("final_coefs")
+to_final_bias = get_saved_info("final_intercept")
+
+def set_params(gcn_weight, gcn_bias, to_graph_weight, to_graph_bias, to_final_weight, to_final_bias):
+    gn.gcn.lin.weight = nn.Parameter(torch.tensor(gcn_weight).T.float())
+    gn.gcn.bias = nn.Parameter(torch.tensor(gcn_bias).float())
+
+    gn.to_graph_layer.weight = nn.Parameter(torch.tensor(to_graph_weight).T.float())
+    gn.to_graph_layer.bias = nn.Parameter(torch.tensor(to_graph_bias).float())
+
+    gn.to_final_layer.weight = nn.Parameter(torch.tensor(to_final_weight).float())
+    gn.to_graph_layer.bias = nn.Parameter(torch.tensor(to_final_bias).float())
 
 # setting pre built data
 
-set_params()
-
+set_params(gcn_weight, gcn_bias, to_graph_weight, to_graph_bias, to_final_weight, to_final_bias)
 
 X,y = get_graph_info(0)
 pred = gn(X, edge_index)
