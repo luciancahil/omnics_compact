@@ -180,8 +180,25 @@ def set_params():
     gn.to_graph_layer.bias = nn.Parameter(torch.tensor(get_saved_info("final_intercept")).float())
 
 
-num_genes = 12132
-num_nodes = 15137
+"""
+    txn.put("num_genes".encode(), pickle.dumps(num_genes))
+    txn.put("num_nodes".encode(), pickle.dumps(num_nodes))
+    txn.put("nodes_per_graph".encode(), pickle.dumps(nodes_per_graph))
+    txn.put("edges_per_graph".encode(), pickle.dumps(edges_per_graph))
+    txn.put("genes_per_graph".encode(), pickle.dumps(genes_per_graph))
+    txn.put("num_to_name_dicts".encode(), pickle.dumps(num_to_name_dicts))
+"""
+
+num_genes = get_item("num_genes")
+num_nodes = get_item("num_nodes")
+nodes_per_graph = get_item("nodes_per_graph")
+edges_per_graph = get_item("edges_per_graph")
+genes_per_graph = get_item("genes_per_graph")
+num_to_name_dicts = get_item("num_to_name_dicts")
+
+
+breakpoint()
+
 nodes_per_graph = get_saved_info("num_nodes")
 num_graphs = len(nodes_per_graph)
 
